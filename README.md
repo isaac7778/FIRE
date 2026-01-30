@@ -15,9 +15,9 @@ Accepted at ICLR 2026
 
 For more information, please see our [project webpage](https://isaac7778.github.io/fire/)
 
-## Codebase
+## 📖 Codebase
 
-Since we did experiments on diverse domains (vision, language, rl), we used different codebase and environment. Please refer below:
+As we conducted experiments in diverse domains (vision, language and RL), we used different settings for each of them. Please refer below to set up and run experiments:
 
 #### Continual Visual Learning (Fig 2) > [vision/README.md](vision/README.md)
 
