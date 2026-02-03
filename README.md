@@ -13,7 +13,7 @@ Seungwon Oh,
 
 Accepted at ICLR 2026
 
-<p align="center">
+<p align="left">
   <img src="assets/iclr2026fire.png" width="300">
 </p>
 
