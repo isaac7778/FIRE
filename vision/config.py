@@ -19,14 +19,14 @@ class Config:
 
 CONFIG = {
     'regen': {
-        'coef': 0,  # l2 init regularization coefficient, 0.1 ~ 1e-5
+        'coef': 0.,  # l2 init regularization coefficient, 0.1 ~ 1e-5
     },
     'snp': {
-        'coef': 0 # Shrink and perturb, 0.2, 0.4, 0.6, 0.8, 1.0
+        'coef': 0. # Shrink and perturb, 0.2, 0.4, 0.6, 0.8, 1.0
     },
     'dash': {
-        'alpha': 0,  
-        'lambda': 0,  
+        'alpha': 0.,  
+        'lambda': 0.,  
     },
     'full_reset': {
         'enable': False,
@@ -40,7 +40,7 @@ CONFIG = {
         'iter_num': 10,
     },
     'cbp': {
-        'enable': True,
+        'enable': False,
         'replacement_rate': 1e-5,
         'maturity_threshold': 1000,
     },
@@ -62,13 +62,10 @@ CONFIG = {
 
     'clip_grad_norm': 0.5,  # clip grad norm, 0 for disable
 
-    'reset_optimizer': True,  # reset optimizer between chunks
-    'loss': 'ce',  # ce, fl, mse, softmax_mse
-
     'task': 'TinyImageNet',  # Task name: CIFAR10, CIFAR100, TinyImageNet
-    'model': 'hntVGG16',  # hntRESNET18, hntTinyViT, hntVGG16
+    'model': 'VGG16',  # RESNET18, TinyViT, VGG16
     
-    'benchmark': 'continual_full',  # warm_start, continual_full, class_incremental
+    'benchmark': 'warm_start',  # warm_start, continual, class_incremental
     'warm_start_subset_ratio': 10,
 
     'log_every': 1,
@@ -76,17 +73,6 @@ CONFIG = {
     'batch_size': 256,  # Batch size
     'disable_wandb': False,
 }
-
-benchmark_settings = {
-    'warm_start': {'n_epochs': 100, 'n_chunks': 2, 'access': 'full', 'mode': 'sample', 'run_test': True, 'test_access': 'same'},
-    'continual_full': {'n_epochs': 100, 'n_chunks': 10, 'access': 'full', 'mode': 'sample', 'run_test': True, 'test_access': 'same'},
-    'class_incremental': {'n_epochs': 100, 'n_chunks': 20, 'access': 'full', 'mode': 'class', 'run_test': True, 'test_access': 'same'},
-}
-
-if CONFIG['benchmark'] in benchmark_settings:
-    CONFIG.update(benchmark_settings[CONFIG['benchmark']])
-else:
-    raise ValueError('Invalid benchmark name')
 
 import argparse
 

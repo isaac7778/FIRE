@@ -83,7 +83,6 @@ class Task(ABC):
             raise ValueError(f"Level should be in [0, {self.n_chunks})")
 
         dataset = self._train_datasets[self.level]
-        # print(f'Dataset type at level {level}: {type(dataset)}')  # 데이터셋 타입을 출력
 
         return DataLoader(IndexedDataset(dataset), batch_size=batch_size, shuffle=True)
 
@@ -207,6 +206,7 @@ class Task(ABC):
                 start_idx = i * n_class if access == 'limited' else 0
                 chunk_train_indices = np.where(np.isin(train_dataset.targets, classes[start_idx:(i + 1) * n_class]))[0]
                 chunk_test_indices = np.where(np.isin(test_dataset.targets, classes[start_idx:(i + 1) * n_class]))[0]
+
                 train_subset = Subset(train_dataset, chunk_train_indices)
 
                 self._train_datasets.append(train_subset)
@@ -338,6 +338,7 @@ class TinyImageNet(Task):
 
         if not os.path.exists(train_dir) or not os.path.exists(val_dir):
             # Download Tiny ImageNet dataset
+            print("Downloading TinyImageNet dataset")
             response = requests.get("http://cs231n.stanford.edu/tiny-imagenet-200.zip")
             if response.status_code == 200:
                 with zipfile.ZipFile(BytesIO(response.content)) as zip_ref:
@@ -354,6 +355,7 @@ class TinyImageNet(Task):
 
             # Separate validation images into separate sub-folders
             self._organize_val_dir(root_dir, val_dir)
+            print("Successfully downloaded TinyImageNet dataset")
 
 
         train_mean, train_std = (0.4802, 0.4481, 0.3975), (0.2770, 0.2691, 0.2821)

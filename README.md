@@ -8,12 +8,17 @@ Authors:
 Sangyeon Park, 
 Seungwon Oh, 
 [Donghu Kim](https://i-am-proto.github.io/),
-[Hojoon Lee](https://joonleesky.github.io/), 
-[Kyung-Joong Kim](https://cilab.gist.ac.kr/hp/current-member/)
+[Hojoon Lee*](https://joonleesky.github.io/), 
+[Kyung-Joong Kim*](https://cilab.gist.ac.kr/hp/current-member/)
 
 Accepted at ICLR 2026
 
-For more information, please see our [project webpage](https://isaac7778.github.io/fire/)
+<p align="center">
+  <img src="assets/iclr2026fire.png" width="300">
+</p>
+
+For more information, please see our [project webpage](https://isaac7778.github.io/fire/) and [paper](https://openreview.net/pdf?id=CfZLxT3zIZ)
+
 
 ## 📖 Codebase
 

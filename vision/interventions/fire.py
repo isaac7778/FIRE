@@ -3,7 +3,7 @@ from torch import nn
 import numpy as np
 
 @torch.no_grad()
-def fire(model, alpha, iteration, is_vit=False):
+def fire(model, iteration, is_vit=False):
     for name, m in model.named_modules():
         if isinstance(m, (nn.Linear, nn.Conv2d)):
             param = m.weight
@@ -26,8 +26,7 @@ def fire(model, alpha, iteration, is_vit=False):
             kernel_size = weight_matrix.shape[2]*weight_matrix.shape[3] if weight_matrix.ndim==4 else 1.0
             scale = np.sqrt(weight_matrix.shape[0]/weight_matrix.shape[1]) / kernel_size
             ortho_weight_matrix *= scale
-            final_matrix = alpha * ortho_weight_matrix + (1 - alpha) * weight_matrix
-            param.data = final_matrix
+            param.data = ortho_weight_matrix
 
 def newton_schulz(matrix, num_iters=10):
     a, b = (1.5, -0.5)

@@ -1,3 +1,5 @@
+import torch
+
 def parseval_loss(model, scale, effective=False):
     total_loss = 0
     for name, param in model.named_parameters():
