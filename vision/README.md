@@ -24,11 +24,12 @@ Run main script using command below.
 python train.py --benchmark [benchmark_name] --model [model_name] --task [dataset_name]
 ```
 
-```
-available benchmarks: [warm_start, continunal, class_incremental]
-available models: [RESNET18, TinyViT, VGG16]
-available datasets: [CIFAR10, CIFAR100, TinyImageNet]
-```
+Available benchmarks: ```[warm_start, continunal, class_incremental]```
+
+Available models: ```[RESNET18, TinyViT, VGG16]```
+
+Available datasets: ```[CIFAR10, CIFAR100, TinyImageNet]```
+
 Run with --help to see full configs including interventions.
 ```
 python train.py --help
