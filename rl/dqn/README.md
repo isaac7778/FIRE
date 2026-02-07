@@ -70,8 +70,8 @@ python -m cleanrl.dqn_atari --env-id {env_id} --seed {seed}
 |------|-----------|-------------|
 | `--full_reset 1` | Reset [2] | Fully resets all network weights to their initial values |
 | `--sr 1` | SR-DQN (Shrink & Perturb) [3] | Resets linear layers fully; interpolates conv layers (20% old + 80% init) |
-| `--pi 1` | Plasticity Injection [4] | Multi-head architecture preserving old knowledge while adding trainable heads |
-| `--fire 1` | FIRE (Ours) | Orthogonal reinitialization of conv layers while resetting linear layers |
+| `--pi 1` | Plasticity Injection [4] | Freezes current weights and adds a new trainable residual branch, preserving outputs |
+| `--fire 1` | FIRE (Ours) | Projects weights onto the closest orthogonal matrix (isotropy manifold) using Newton-Schulz iteration while resetting linear layers |
 | *(none)* | Vanilla | Resumes training without any modification |
 
 **Only one technique can be applied at a time.**
