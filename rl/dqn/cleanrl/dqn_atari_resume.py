@@ -452,7 +452,7 @@ poetry run pip install "stable_baselines3==2.0.0a1" "gymnasium[atari,accept-rom-
 
     # load checkpoint
     print(f"Loading checkpoint from {args.resume_checkpoint_path}")
-    checkpoint = torch.load(args.resume_checkpoint_path, map_location=device)
+    checkpoint = torch.load(args.resume_checkpoint_path, map_location=device, weights_only=False)
     q_network.load_state_dict(checkpoint["q_network"])
     target_network.load_state_dict(checkpoint["target_network"])
     optimizer.load_state_dict(checkpoint["optimizer"])
@@ -625,5 +625,48 @@ poetry run pip install "stable_baselines3==2.0.0a1" "gymnasium[atari,accept-rom-
                 })
 
     envs.close()
+
+    # Record a single episode video and log to wandb
     if args.track:
+        print("Recording final evaluation video...")
+        video_run_name = f"{run_name}-final-video"
+
+        # Single env with capture_video=True, same wrappers as make_env
+        rec_env = gym.vector.SyncVectorEnv(
+            [make_env(args.env_id, 46782132, 0, capture_video=True, run_name=video_run_name)]
+        )
+
+        if args.pi == 1:
+            VideoModel = PlasticityInjectedQNetwork
+        else:
+            VideoModel = QNetwork
+
+        video_model_path = f"runs/{run_name}/final_video_model"
+        torch.save(q_network.state_dict(), video_model_path)
+        video_model = VideoModel(rec_env)
+        video_model.to(device)
+        video_model.load_state_dict(torch.load(video_model_path, map_location=device, weights_only=False))
+        video_model.eval()
+
+        obs_rec, _ = rec_env.reset()
+        done = False
+        while not done:
+            if random.random() < 0.001:
+                actions = np.array([rec_env.single_action_space.sample()])
+            else:
+                q_values = video_model(torch.Tensor(obs_rec).to(device))
+                actions = torch.argmax(q_values, dim=1).cpu().numpy()
+            obs_rec, _, terminated, truncated, _ = rec_env.step(actions)
+            done = terminated[0] or truncated[0]
+        rec_env.close()
+
+        # Upload recorded video to wandb
+        import glob
+        video_dir = f"videos/{video_run_name}"
+        video_files = sorted(glob.glob(os.path.join(video_dir, "*.mp4")))
+        if video_files:
+            video_path = video_files[-1]
+            print(f"Uploading video: {video_path}")
+            wandb.log({"eval/final_video": wandb.Video(video_path, fps=30, format="mp4")})
+
         wandb.finish()
