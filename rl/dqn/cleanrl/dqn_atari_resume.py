@@ -665,7 +665,7 @@ poetry run pip install "stable_baselines3==2.0.0a1" "gymnasium[atari,accept-rom-
         video_dir = f"videos/{video_run_name}"
         video_files = sorted(glob.glob(os.path.join(video_dir, "*.mp4")))
         if video_files:
-            video_path = video_files[-1]
+            video_path = video_files[0]
             print(f"Uploading video: {video_path}")
             wandb.log({"eval/final_video": wandb.Video(video_path, fps=30, format="mp4")})
 
