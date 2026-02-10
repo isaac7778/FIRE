@@ -17,7 +17,7 @@ Accepted at ICLR 2026 (Oral presentation - top ~1.5% of submissions)
   <img src="assets/iclr2026fire.png" width="300">
 </p>
 
-For more information, please see our [project webpage](https://isaac7778.github.io/fire/) and [paper](https://openreview.net/pdf?id=CfZLxT3zIZ)
+For more information, please see our [project webpage](https://isaac7778.github.io/fire/) and [paper](https://arxiv.org/abs/2602.08040)
 
 
 ## 📖 Codebase
@@ -28,7 +28,7 @@ As we conducted experiments in diverse domains (vision, language and RL), we use
 
 #### Continual Pretraining of LLMs (Fig 3) > [language/README.md](language/README.md)
 
-#### Reinforcement Learning (Fig 4) > [rl/dqn/README.md](rl/dqn/README.md) and [rl/sac/README.md](rl/sac/README.md)
+#### Reinforcement Learning (Fig 4) > [rl/dqn/README.md](rl/dqn/README.md). SAC code will be released soon.
 
 ---
 
