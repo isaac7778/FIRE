@@ -28,7 +28,7 @@ As we conducted experiments in diverse domains (vision, language and RL), we use
 
 #### Continual Pretraining of LLMs (Fig 3) > [language/README.md](language/README.md)
 
-#### Reinforcement Learning (Fig 4) > [rl/dqn/README.md](rl/dqn/README.md). SAC code will be released soon.
+#### Reinforcement Learning (Fig 4) > [rl/dqn/README.md](rl/dqn/README.md) and [rl/sac/README.md](rl/sac/README.md)
 
 ## 🔥FIRE implementation
 Stop worrying about plasticity loss, just apply FIRE before training on new data.
