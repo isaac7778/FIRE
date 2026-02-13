@@ -1,0 +1,15 @@
+python run_parallel.py \
+    --server local \
+    --group_name fire \
+    --exp_name simbaRR2_reset500k \
+    --config_name online_rl \
+    --agent_config simba \
+    --env_type hb_utd_scaling \
+    --device_ids 0 \
+    --num_seeds 5 \
+    --num_exp_per_device 1 \
+    --overrides project_name='SHOW_RL' \
+    --overrides updates_per_interaction_step=2 \
+    --overrides evaluation_per_interaction_step=5000 \
+    --overrides agent.reinit_type='full_reset' \
+    --overrides agent.reinit_update_steps=[500000] \

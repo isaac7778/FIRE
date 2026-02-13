@@ -1,0 +1,17 @@
+python run_parallel.py \
+    --server local \
+    --group_name fire \
+    --exp_name simbaRR2_fire \
+    --config_name online_rl \
+    --agent_config simba \
+    --env_type hb_utd_scaling \
+    --device_ids 0 \
+    --num_seeds 5 \
+    --num_exp_per_device 1 \
+    --overrides updates_per_interaction_step=2 \
+    --overrides evaluation_per_interaction_step=10000 \
+    --overrides logging_per_interaction_step=10000 \
+    --overrides load_path='models/fire/simbaRR2' \
+    --overrides load_step=250000 \
+    --overrides agent.reinit_type='fire' \
+    --overrides agent.reinit_on_load=true \
