@@ -11,7 +11,7 @@ Seungwon Oh,
 [Hojoon Lee*](https://joonleesky.github.io/), 
 [Kyung-Joong Kim*](https://cilab.gist.ac.kr/hp/current-member/)
 
-Accepted at ICLR 2026 (Oral presentation - top ~1.5% of submissions)
+Accepted at ICLR 2026 (Oral presentation - top ~1% of submissions)
 
 <p align="left">
   <img src="assets/iclr2026fire.png" width="300">
