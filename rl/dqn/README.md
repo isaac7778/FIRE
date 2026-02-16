@@ -3,8 +3,45 @@
 Source code for DQN Atari plasticity experiment (Fig. 4(a))
 
 <p align="center">
-  <img src="dqn_results.png" width="600">
+  <img src="assets/dqn_results.png" width="600">
 </p>
+
+### 🎮 Game Demos: Vanilla (No Reset) vs FIRE
+
+<table align="center">
+  <tr>
+    <th></th>
+    <th align="center">Vanilla</th>
+    <th align="center">FIRE (Ours)</th>
+  </tr>
+  <tr>
+    <td><b>Asterix</b></td>
+    <td align="center">
+      <video src="assets/Asterix_Vanilla.mp4" width="280"></video>
+    </td>
+    <td align="center">
+      <video src="assets/Asterix_FIRE.mp4" width="280"></video>
+    </td>
+  </tr>
+  <tr>
+    <td><b>BeamRider</b></td>
+    <td align="center">
+      <video src="assets/BeamRider_Vanilla.mp4" width="280"></video>
+    </td>
+    <td align="center">
+      <video src="assets/BeamRider_FIRE.mp4" width="280"></video>
+    </td>
+  </tr>
+  <tr>
+    <td><b>DemonAttack</b></td>
+    <td align="center">
+      <video src="assets/DemonAttack_Vanilla.mp4" width="280"></video>
+    </td>
+    <td align="center">
+      <video src="assets/DemonAttack_FIRE.mp4" width="280"></video>
+    </td>
+  </tr>
+</table>
 
 This project is built upon the [CleanRL](https://github.com/vwxyzjn/cleanrl) [1] codebase. It implements a two-stage DQN training pipeline for Atari games, designed to study various neural network plasticity and reset techniques applied at the midpoint of training.
 
