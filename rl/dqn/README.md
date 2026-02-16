@@ -8,40 +8,17 @@ Source code for DQN Atari plasticity experiment (Fig. 4(a))
 
 ### 🎮 Game Demos: Vanilla (No Reset) vs FIRE
 
-<table align="center">
-  <tr>
-    <th></th>
-    <th align="center">Vanilla</th>
-    <th align="center">FIRE (Ours)</th>
-  </tr>
-  <tr>
-    <td><b>Asterix</b></td>
-    <td align="center">
-      <video src="assets/Asterix_Vanilla.gif" width="280"></video>
-    </td>
-    <td align="center">
-      <video src="assets/Asterix_FIRE.gif" width="280"></video>
-    </td>
-  </tr>
-  <tr>
-    <td><b>BeamRider</b></td>
-    <td align="center">
-      <video src="assets/BeamRider_Vanilla.gif" width="280"></video>
-    </td>
-    <td align="center">
-      <video src="assets/BeamRider_FIRE.gif" width="280"></video>
-    </td>
-  </tr>
-  <tr>
-    <td><b>DemonAttack</b></td>
-    <td align="center">
-      <video src="assets/DemonAttack_Vanilla.gif" width="280"></video>
-    </td>
-    <td align="center">
-      <video src="assets/DemonAttack_FIRE.gif" width="280"></video>
-    </td>
-  </tr>
-</table>
+**Vanilla**
+
+Asterix             |  BeamRider       |  DemonAttack
+:-------------------------:|:-------------------------:|:-------------------------:
+![](assets/Asterix_Vanilla.gif)  |  ![](assets/BeamRider_Vanilla.gif)  |  ![](assets/DemonAttack_Vanilla.gif)
+
+**FIRE (Ours)**
+
+Asterix             |  BeamRider       |  DemonAttack
+:-------------------------:|:-------------------------:|:-------------------------:
+![](assets/Asterix_FIRE.gif)  |  ![](assets/BeamRider_FIRE.gif)  |  ![](assets/DemonAttack_FIRE.gif)
 
 This project is built upon the [CleanRL](https://github.com/vwxyzjn/cleanrl) [1] codebase. It implements a two-stage DQN training pipeline for Atari games, designed to study various neural network plasticity and reset techniques applied at the midpoint of training.
 
