@@ -114,5 +114,5 @@ python -m cleanrl.dqn_atari_resume --help
 
 - [1] Huang, Shengyi, et al. "Cleanrl: High-quality single-file implementations of deep reinforcement learning algorithms." Journal of Machine Learning Research 23.274 (2022): 1-18.
 - [2] Nikishin, Evgenii, et al. "The primacy bias in deep reinforcement learning." International conference on machine learning. PMLR, 2022.
-- [3] D'Oro, Pierluca, et al. "Sample-efficient reinforcement learning by breaking the replay ratio barrier." Deep Reinforcement Learning Workshop NeurIPS 2022. 2022.
+- [3] D'Oro, Pierluca, et al. "Sample-Efficient Reinforcement Learning by Breaking the Replay Ratio Barrier." The Eleventh International Conference on Learning Representations.
 - [4] Nikishin, Evgenii, et al. "Deep reinforcement learning with plasticity injection." Advances in Neural Information Processing Systems 36 (2023): 37142-37159.
