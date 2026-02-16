@@ -17,28 +17,28 @@ Source code for DQN Atari plasticity experiment (Fig. 4(a))
   <tr>
     <td><b>Asterix</b></td>
     <td align="center">
-      <video src="assets/Asterix_Vanilla.mp4" width="280"></video>
+      <video src="assets/Asterix_Vanilla.gif" width="280"></video>
     </td>
     <td align="center">
-      <video src="assets/Asterix_FIRE.mp4" width="280"></video>
+      <video src="assets/Asterix_FIRE.gif" width="280"></video>
     </td>
   </tr>
   <tr>
     <td><b>BeamRider</b></td>
     <td align="center">
-      <video src="assets/BeamRider_Vanilla.mp4" width="280"></video>
+      <video src="assets/BeamRider_Vanilla.gif" width="280"></video>
     </td>
     <td align="center">
-      <video src="assets/BeamRider_FIRE.mp4" width="280"></video>
+      <video src="assets/BeamRider_FIRE.gif" width="280"></video>
     </td>
   </tr>
   <tr>
     <td><b>DemonAttack</b></td>
     <td align="center">
-      <video src="assets/DemonAttack_Vanilla.mp4" width="280"></video>
+      <video src="assets/DemonAttack_Vanilla.gif" width="280"></video>
     </td>
     <td align="center">
-      <video src="assets/DemonAttack_FIRE.mp4" width="280"></video>
+      <video src="assets/DemonAttack_FIRE.gif" width="280"></video>
     </td>
   </tr>
 </table>
