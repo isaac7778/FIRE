@@ -503,6 +503,7 @@ poetry run pip install "stable_baselines3==2.0.0a1" "gymnasium[atari,accept-rom-
     start_global_step = start_global_step + args.num_envs
     print(f"Resuming training from global_step={start_global_step}")
     start_time = time.time()
+    last_mean_return = None  # track latest eval mean return for video filtering
 
     obs, _ = envs.reset()
     for global_step in range(start_global_step, args.total_timesteps, args.num_envs):
@@ -609,6 +610,7 @@ poetry run pip install "stable_baselines3==2.0.0a1" "gymnasium[atari,accept-rom-
             )
 
             mean_return = np.mean(episodic_returns).astype(float) if len(episodic_returns) > 0 else 0
+            last_mean_return = mean_return
             max_return = np.max(episodic_returns).astype(float) if len(episodic_returns) > 0 else 0
             min_return = np.min(episodic_returns).astype(float) if len(episodic_returns) > 0 else 0
 
@@ -627,14 +629,12 @@ poetry run pip install "stable_baselines3==2.0.0a1" "gymnasium[atari,accept-rom-
     envs.close()
 
     # Record a single episode video and log to wandb
+    # Retry until the episode return is within ±10% of the last eval mean return
     if args.track:
-        print("Recording final evaluation video...")
-        video_run_name = f"{run_name}-final-video"
+        import glob
+        import shutil
 
-        # Single env with capture_video=True, same wrappers as make_env
-        rec_env = gym.vector.SyncVectorEnv(
-            [make_env(args.env_id, 46782132, 0, capture_video=True, run_name=video_run_name)]
-        )
+        print("Recording final evaluation video...")
 
         if args.pi == 1:
             VideoModel = PlasticityInjectedQNetwork
@@ -643,27 +643,80 @@ poetry run pip install "stable_baselines3==2.0.0a1" "gymnasium[atari,accept-rom-
 
         video_model_path = f"runs/{run_name}/final_video_model"
         torch.save(q_network.state_dict(), video_model_path)
-        video_model = VideoModel(rec_env)
-        video_model.to(device)
-        video_model.load_state_dict(torch.load(video_model_path, map_location=device, weights_only=False))
-        video_model.eval()
 
-        obs_rec, _ = rec_env.reset()
-        done = False
-        while not done:
-            if random.random() < 0.001:
-                actions = np.array([rec_env.single_action_space.sample()])
+        max_attempts = 20
+        accepted = False
+        accepted_video_dir = None
+
+        for attempt in range(max_attempts):
+            video_run_name = f"{run_name}-final-video-attempt{attempt}"
+            video_dir = f"videos/{video_run_name}"
+
+            # Single env with capture_video=True, same wrappers as make_env
+            rec_env = gym.vector.SyncVectorEnv(
+                [make_env(args.env_id, 46782132 + attempt, 0, capture_video=True, run_name=video_run_name)]
+            )
+
+            video_model = VideoModel(rec_env)
+            video_model.to(device)
+            video_model.load_state_dict(torch.load(video_model_path, map_location=device, weights_only=False))
+            video_model.eval()
+
+            obs_rec, _ = rec_env.reset()
+            episode_return = 0.0
+            done = False
+            while not done:
+                if random.random() < 0.001:
+                    actions = np.array([rec_env.single_action_space.sample()])
+                else:
+                    q_values = video_model(torch.Tensor(obs_rec).to(device))
+                    actions = torch.argmax(q_values, dim=1).cpu().numpy()
+                obs_rec, _, terminated, truncated, infos = rec_env.step(actions)
+                done = terminated[0] or truncated[0]
+                if done and "final_info" in infos:
+                    for info in infos["final_info"]:
+                        if info and "episode" in info:
+                            episode_return = float(info["episode"]["r"])
+            rec_env.close()
+
+            # Check if episode return is within ±10% of last_mean_return
+            if last_mean_return is None or last_mean_return == 0:
+                # No eval data or zero mean: accept any episode
+                print(f"Attempt {attempt + 1}: episode_return={episode_return:.1f} (no valid mean_return to compare, accepting)")
+                accepted = True
+                accepted_video_dir = video_dir
+                break
+
+            if last_mean_return >= 0:
+                lower = last_mean_return * 0.9
+                upper = last_mean_return * 1.1
             else:
-                q_values = video_model(torch.Tensor(obs_rec).to(device))
-                actions = torch.argmax(q_values, dim=1).cpu().numpy()
-            obs_rec, _, terminated, truncated, _ = rec_env.step(actions)
-            done = terminated[0] or truncated[0]
-        rec_env.close()
+                lower = last_mean_return * 1.1
+                upper = last_mean_return * 0.9
+
+            print(f"Attempt {attempt + 1}/{max_attempts}: episode_return={episode_return:.1f}, "
+                  f"mean_return={last_mean_return:.1f}, acceptable range=[{lower:.1f}, {upper:.1f}]")
+
+            if lower <= episode_return <= upper:
+                accepted = True
+                accepted_video_dir = video_dir
+                print(f"  -> Accepted! Within ±10% of mean.")
+                break
+            else:
+                print(f"  -> Rejected. Outside ±10% range.")
+                # Clean up rejected video (but keep last attempt as fallback)
+                if attempt < max_attempts - 1:
+                    if os.path.exists(video_dir):
+                        shutil.rmtree(video_dir)
+
+        if not accepted:
+            # Use the last attempt as fallback
+            accepted_video_dir = video_dir
+            print(f"Warning: Could not get episode within ±10% of mean after {max_attempts} attempts. "
+                  f"Using last attempt (episode_return={episode_return:.1f}).")
 
         # Upload recorded video to wandb
-        import glob
-        video_dir = f"videos/{video_run_name}"
-        video_files = sorted(glob.glob(os.path.join(video_dir, "*.mp4")))
+        video_files = sorted(glob.glob(os.path.join(accepted_video_dir, "*.mp4")))
         if video_files:
             video_path = video_files[0]
             print(f"Uploading video: {video_path}")
