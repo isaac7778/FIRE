@@ -11,7 +11,7 @@ import numpy as np
 from models import get_resnet18_CIFAR10, get_TinyViT_CIFAR100, get_VGG16_TinyImageNet
 from task import TASKS
 
-# Add the bundled sparsimony repo to sys.path once at import time.
+# Add the bundled sparsimony repo to sys.path once at import time, sparsimony now vendored as a directory
 _sparsimony_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sparsimony')
 if os.path.isdir(_sparsimony_path) and _sparsimony_path not in sys.path:
     sys.path.insert(0, _sparsimony_path)
