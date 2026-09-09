@@ -167,7 +167,7 @@ def build_sparsifier(cfg, model, optimizer, total_steps):
     sparse_config = [
         {"tensor_fqn": f"{fqn}.weight"}
         for fqn, module in model.named_modules()
-        if isinstance(module, (nn.Linear, nn.Conv2d))
+        if isinstance(module, (nn.Linear, nn.Conv2d)) and fqn != 'head.fc.0'
     ]
     sparsifier.prepare(model, sparse_config)
 
